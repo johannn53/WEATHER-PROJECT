@@ -1,0 +1,18 @@
+{
+  "name": "weather-api",
+  "version": "1.0.0",
+  "description": "portof weather api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "author": "Johand",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "dotenv": "^16.1.1",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22"
+  }
+}

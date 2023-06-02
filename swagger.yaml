@@ -1,0 +1,122 @@
+openapi: 3.0.2
+info:
+  title: Swagger API OPEN WEATHER
+  description: >-
+    Api yang ada disini untuk kebutuhan request weather berdasarkan pencarian nama kota
+  version: 1.0.0
+  contact:
+    email: arijohand25@gmail.com
+servers:
+  - url: http://localhost:3500/api/v1
+tags:
+  - name: Weather
+    description: Kelompok API untuk kebutuhan mendapatkan laporan cuaca
+paths:
+  /weather:
+    post:
+      tags:
+        - Weather
+      summary: Api digunakan untuk mendapatkan laporan cuaca di kota yang di request
+      description: >-
+        # Request:
+
+        # 1. q
+
+        ```
+
+        Data : Required
+          q:
+        ```
+
+        Key **q** di gunakan untuk mencari kota mana yang akan didapatkan laporan cuacanya
+          
+        Key **phone** validasi:
+
+        * String
+
+
+        Note:
+
+        - Key q merupakan query yang wajib dikirimkan ke open weather map.
+
+        - url akan menjadi seperti berikut: localhost:3500/api/v1/weather?q=jakarta
+
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Nama kota
+      responses:
+        "200":
+          description: contoh response request jika berhasil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    enum:
+                      - true
+                      - false
+                  data:
+                    type: object
+              examples:
+                default:
+                  summary: Response Request Standard
+                  value:
+                    status: true
+                    data:
+                      main_weather: clouds
+                      description: few couds
+                      temprature: 32.6
+                      minTemprature: 30.5
+                      maxTemprature: 33.3
+                      windSpeed: 6.17
+                      clouds: 20
+                      message: the weather in jakarta is few clouds.With a temprature of 32.6°C, min temprature is 30.5 and max temprature is 33.3.Wind speed is 6.17m/s and cloud coverage is 20%
+        "400":
+          description: contoh response request otp jika gagal
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    enum:
+                      - true
+                      - false
+                  data:
+                    type: object
+                    description: Object data berisikan key dan value request_id
+                    properties:
+                      request_id:
+                        type: string
+              examples:
+                eror1:
+                  summary: Response Request dengan data query city null / kosong
+                  value:
+                    status: false
+                    error:
+                      type: error.validation
+                      msg:
+                        city: validation.required
+                eror2:
+                  summary: Response Request dengan data kota tidak exist
+                  value:
+                    status: false
+                    error:
+                      type: error.validation
+                      msg:
+                        city: validation.not.found
+                eror3:
+                  summary: Response Request dengan data api key invalid
+                  value:
+                    status: false
+                    error:
+                      type: error.validation
+                      msg:
+                        appid: validation.invalid
