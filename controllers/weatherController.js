@@ -57,7 +57,6 @@ module.exports = {
         data: response,
       });
     } catch (error) {
-      console.log(error);
       if (error.response && error.response.status === 401) {
         error.name = "invalid api key";
         next(error);
